@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<collections>
+    
+    
+    
+    
+<task>
+        <id>1</id>
+        <name>Google</name>
+        <url>http://google.ru:80</url>
+        <attempts>4</attempts>
+        <god_attempts>4</god_attempts>
+        <times>214</times>
+    </task>
+    <task>
+        <id>2</id>
+        <name>VK</name>
+        <url>http://vk.com:80</url>
+        <attempts>4</attempts>
+        <god_attempts>4</god_attempts>
+        <times>141</times>
+    </task>
+    <task>
+        <id>3</id>
+        <name>Mail</name>
+        <url>http://mail.ru:80</url>
+        <attempts>4</attempts>
+        <god_attempts>4</god_attempts>
+        <times>28</times>
+    </task>
+    <task>
+        <id>4</id>
+        <name>Yandex</name>
+        <url>http://yandex.ru:80</url>
+        <attempts>4</attempts>
+        <god_attempts>4</god_attempts>
+        <times>168</times>
+    </task>
+</collections>
