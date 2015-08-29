@@ -22,7 +22,7 @@ public class XMLParser extends DefaultHandler
     private int attempts;
     private int god_attempts;// _
     private long times;
-    private Journal list = new Journal();
+    private final Journal list = new Journal();
     
     @Override 
     public void startDocument() throws SAXException

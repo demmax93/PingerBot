@@ -16,6 +16,9 @@ import java.util.regex.Pattern;
 public class ConsoleController
 {
     private static final String NAME_REG_EXP = "^[[à-ÿÀ-ßa-zA-Z]{2,}|\\s{1,}|[.,]{1,}]{1,}$";
+    private static final String URL_REG_EXP = "(http://|https://)(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?";
+    private final Pattern nameReg = Pattern.compile(NAME_REG_EXP);
+    private final Pattern urlReg = Pattern.compile(URL_REG_EXP);
     private final Journal list;
     private final ConsoleView view;
     private final Pinger ping;
@@ -28,13 +31,12 @@ public class ConsoleController
     }
     
     public boolean validateName(String userNameString){  //use validation
-        Pattern p = Pattern.compile(NAME_REG_EXP);  //one char name
-        Matcher m = p.matcher(userNameString);  
+        Matcher m = nameReg.matcher(userNameString);  
         return m.matches();  
     }
     public boolean validateURL(String userNameString){   //use validation & exceptions
-        Pattern p = Pattern.compile("(http://|https://)(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?");  //const //field
-        Matcher m = p.matcher(userNameString);  
+
+        Matcher m = urlReg.matcher(userNameString);  
         return m.matches();  
     }
     

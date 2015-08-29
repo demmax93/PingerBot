@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class Pinger
 {
-    private Journal list;
+    private final Journal list;
     private String url;
     private long times;
     private long before;
@@ -59,16 +59,15 @@ public class Pinger
         }
     }
     
-    public void ConnectURL(int index)
+    public void connectURL(int index)
     {
         try //try resource
         {
             this.url=this.list.getURL(index);
-            this.timebefore();//>It should be noted that a URLConnection instance does not establish the actual network connection on creation.
             URL test_01 = new URL(this.url);
             HttpURLConnection conn = (HttpURLConnection)test_01.openConnection();//timeout
             conn.setRequestMethod("GET");
-            
+            this.timebefore();
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             in.close(); //close in finally
             this.timeafter();
@@ -94,7 +93,7 @@ public class Pinger
            {
                for(int index=0;index<list.size();index++)
                {
-                   ConnectURL(index);
+                   connectURL(index);
                }
            }
        }; 
