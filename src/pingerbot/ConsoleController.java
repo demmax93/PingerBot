@@ -57,7 +57,7 @@ public class ConsoleController
                 case "add": this.view.printAddName(); name=scan.next(); this.view.printAddURL(); url=scan.next(); this.list.add(5,name, url, 0, 0, 0); this.view.printStart();break;
                 case "save": xml.save(this.list); this.view.printStart(); break;
                 case "delete": index=scan.nextInt(); this.list.remove(index-1); this.view.printDelete(index); this.view.printStart(); break;
-                case "exit": ping.TimerClose(); break;
+                case "exit": ping.timerClose(); break;
                 default: this.view.printHelp(); this.view.printStart(); break;
             }
         }

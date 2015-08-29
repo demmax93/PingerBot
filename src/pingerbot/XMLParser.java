@@ -79,7 +79,7 @@ public class XMLParser extends DefaultHandler
         //System.out.println("Stop parse XML...");
     }
     
-    public void ListZeroing()
+    public void listZeroing()
     {
         this.list.clear();
     }

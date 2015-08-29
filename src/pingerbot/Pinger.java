@@ -35,22 +35,22 @@ public class Pinger
         mTimer = new Timer();
     }
     
-    public void Timebefore()
+    public void timebefore()
     {
         this.before=System.currentTimeMillis();
     }
     
-    public void Timeafter()
+    public void timeafter()
     {
         this.after=System.currentTimeMillis();
     }
     
-    public void Times()
+    public void times()
     {
         this.times=this.after-this.before;
     }
     
-    public void TimerClose() //method name
+    public void timerClose() //method name
     {
         if(mTimer != null)
         {
@@ -64,15 +64,15 @@ public class Pinger
         try //try resource
         {
             this.url=this.list.getURL(index);
-            this.Timebefore();//>It should be noted that a URLConnection instance does not establish the actual network connection on creation.
+            this.timebefore();//>It should be noted that a URLConnection instance does not establish the actual network connection on creation.
             URL test_01 = new URL(this.url);
             HttpURLConnection conn = (HttpURLConnection)test_01.openConnection();//timeout
             conn.setRequestMethod("GET");
             
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             in.close(); //close in finally
-            this.Timeafter();
-            this.Times();
+            this.timeafter();
+            this.times();
             this.list.setTimes(index,this.times);
             this.list.setAttempts(index,this.list.getAttempts(index)+1); //надо учитывать что подключение может отвалиться
             this.list.setGoodAttempts(index,this.list.getGodAttempts(index)+1);
