@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
  */
 public class ConsoleController
 {
+    private static final String NAME_REG_EXP = "^[[à-ÿÀ-ßa-zA-Z]{2,}|\\s{1,}|[.,]{1,}]{1,}$";
     private final Journal list;
     private final ConsoleView view;
     private final Pinger ping;
@@ -26,27 +27,27 @@ public class ConsoleController
         this.ping = new Pinger(list); 
     }
     
-    public boolean validateName(String userNameString){  
-        Pattern p = Pattern.compile("^[[à-ÿÀ-ßa-zA-Z]{2,}|\\s{1,}|[.,]{1,}]{1,}$");  
+    public boolean validateName(String userNameString){  //use validation
+        Pattern p = Pattern.compile(NAME_REG_EXP);  //one char name
         Matcher m = p.matcher(userNameString);  
         return m.matches();  
     }
-    public boolean validateURL(String userNameString){  
-        Pattern p = Pattern.compile("(http://|https://)(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?");  
+    public boolean validateURL(String userNameString){   //use validation & exceptions
+        Pattern p = Pattern.compile("(http://|https://)(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?");  //const //field
         Matcher m = p.matcher(userNameString);  
         return m.matches();  
     }
     
-    public void start(DAOXML xml, String pathXml)
+    public void start(IData xml)
     {
-        int index;
+        int index; //use index from collection
         String name,url,temp;
         this.view.printStart();
         Scanner scan=new Scanner(System.in);
         String command="";
+        ping.StartConnect();
         while(!"exit".equals(command))
         {
-            ping.StartConnect();
             command=scan.next();
             switch(command)
             {
@@ -54,7 +55,7 @@ public class ConsoleController
                 case "help": this.view.printHelp(); this.view.printStart(); break;
                 case "get": index=scan.nextInt(); this.view.printGet(list, index-1); this.view.printStart(); break;
                 case "add": this.view.printAddName(); name=scan.next(); this.view.printAddURL(); url=scan.next(); this.list.add(5,name, url, 0, 0, 0); this.view.printStart();break;
-                case "save": xml.XmlSave(pathXml, this.list); this.view.printStart(); break;
+                case "save": xml.save(this.list); this.view.printStart(); break;
                 case "delete": index=scan.nextInt(); this.list.remove(index-1); this.view.printDelete(index); this.view.printStart(); break;
                 case "exit": ping.TimerClose(); break;
                 default: this.view.printHelp(); this.view.printStart(); break;

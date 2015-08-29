@@ -50,7 +50,7 @@ public class Pinger
         this.times=this.after-this.before;
     }
     
-    public void TimerClose()
+    public void TimerClose() //method name
     {
         if(mTimer != null)
         {
@@ -61,19 +61,20 @@ public class Pinger
     
     public void ConnectURL(int index)
     {
-        try
+        try //try resource
         {
             this.url=this.list.getURL(index);
-            this.Timebefore();
+            this.Timebefore();//>It should be noted that a URLConnection instance does not establish the actual network connection on creation.
             URL test_01 = new URL(this.url);
-            HttpURLConnection conn = (HttpURLConnection)test_01.openConnection();
+            HttpURLConnection conn = (HttpURLConnection)test_01.openConnection();//timeout
             conn.setRequestMethod("GET");
+            
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            in.close();
+            in.close(); //close in finally
             this.Timeafter();
             this.Times();
             this.list.setTimes(index,this.times);
-            this.list.setAttempts(index,this.list.getAttempts(index)+1);
+            this.list.setAttempts(index,this.list.getAttempts(index)+1); //надо учитывать что подключение может отвалиться
             this.list.setGoodAttempts(index,this.list.getGodAttempts(index)+1);
         } catch (MalformedURLException ex)
         {
@@ -84,7 +85,7 @@ public class Pinger
         }
     }
     
-    public void StartConnect()
+    public void StartConnect() //name
     {
        TimerTask mTask = new TimerTask() {
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author maksi_000
  */
-public class Journal
+public class Journal //add interface to manipulate with model
 {
     private ArrayList<Note> journal = new ArrayList<Note>();
     

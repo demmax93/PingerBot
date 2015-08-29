@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,6 +21,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,9 +35,15 @@ import org.xml.sax.SAXException;
  */
 public class DAOXML implements IData
 {
+    private final String pathXml;
+    
+    public DAOXML(String pathXml)
+    {
+        this.pathXml=pathXml;
+    }
 
     @Override
-    public Journal XmlUpload(String pathXML)
+    public Journal load() //path to local var //rename
     {
         Journal list= new Journal();
         try
@@ -43,7 +51,7 @@ public class DAOXML implements IData
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
             XMLParser saxp = new XMLParser();
-            File file = new File(pathXML);
+            File file = new File(this.pathXml);
             parser.parse(file, saxp);
             list = saxp.getResult();
         } catch (ParserConfigurationException | SAXException | IOException ex)
@@ -53,14 +61,15 @@ public class DAOXML implements IData
         return list;
     }
 
+    //use jaxb https://dev64.wordpress.com/2012/05/15/using-annotations-with-jaxb/
     @Override
-    public void XmlSave(String pathXML, Journal list)
+    public void save(Journal list)
     {
         try
         {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(pathXML);
+            Document document = documentBuilder.parse(this.pathXml);
             Node collections = document.getElementsByTagName("collections").item(0);
 
             NodeList listener = collections.getChildNodes();
@@ -97,7 +106,7 @@ public class DAOXML implements IData
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File(pathXML));
+            StreamResult streamResult = new StreamResult(new File(this.pathXml));
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes"); 
             transformer.transform(domSource, streamResult);

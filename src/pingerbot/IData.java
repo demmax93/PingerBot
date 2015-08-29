@@ -11,6 +11,6 @@ package pingerbot;
  */
 public interface IData
 {
-    public Journal XmlUpload(String pathXML);
-    public void XmlSave(String pathXML,Journal list);
+    public Journal load();
+    public void save(Journal list);
 }

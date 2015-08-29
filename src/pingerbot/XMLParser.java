@@ -20,7 +20,7 @@ public class XMLParser extends DefaultHandler
     private String name="";
     private String url="";
     private int attempts;
-    private int god_attempts;
+    private int god_attempts;// _
     private long times;
     private Journal list = new Journal();
     
@@ -39,7 +39,7 @@ public class XMLParser extends DefaultHandler
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException
     {
-        if(thisElement.equals("id"))
+        if(thisElement.equals("id")) //equals to constants
         {
             id=new Integer(new String(ch, start, length));
         }
