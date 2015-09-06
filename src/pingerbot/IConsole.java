@@ -9,8 +9,7 @@ package pingerbot;
  *
  * @author maksi_000
  */
-public interface IData
+public interface IConsole
 {
-    public Journal load();
-    public void save(ITask list);
+    public void start(IData xml);
 }

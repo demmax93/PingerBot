@@ -8,11 +8,11 @@ package pingerbot;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.net.URLConnection;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,17 +22,17 @@ import java.util.logging.Logger;
  */
 public class Pinger
 {
-    private final Journal list;
+    private final ITask list;
     private String url;
     private long times;
     private long before;
     private long after;
-    private Timer mTimer;
+    private final ScheduledExecutorService service;
     
-    public Pinger(Journal list)
+    public Pinger(ITask list)
     {
         this.list=list;
-        mTimer = new Timer();
+        service = Executors.newScheduledThreadPool(10);
     }
     
     public void timebefore()
@@ -50,54 +50,60 @@ public class Pinger
         this.times=this.after-this.before;
     }
     
-    public void timerClose() //method name
-    {
-        if(mTimer != null)
-        {
-            mTimer.cancel();
-            mTimer=null;
-        }
-    }
-    
     public void connectURL(int index)
     {
-        try //try resource
+        try
         {
             this.url=this.list.getURL(index);
-            URL test_01 = new URL(this.url);
-            HttpURLConnection conn = (HttpURLConnection)test_01.openConnection();//timeout
-            conn.setRequestMethod("GET");
+            URL urlTask = new URL(this.url);
+            URLConnection conn = urlTask.openConnection();//timeout
+            conn.setConnectTimeout(2000);
             this.timebefore();
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            in.close(); //close in finally
-            this.timeafter();
+            try(BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));)
+            {
+                this.timeafter();
+            }
             this.times();
-            this.list.setTimes(index,this.times);
-            this.list.setAttempts(index,this.list.getAttempts(index)+1); //надо учитывать что подключение может отвалиться
-            this.list.setGoodAttempts(index,this.list.getGodAttempts(index)+1);
-        } catch (MalformedURLException ex)
+            this.list.setGoodAttempts(index,this.list.getGoodAttempts(index)+1);
+        } 
+        catch (java.net.SocketTimeoutException | java.net.ConnectException ex)
         {
-            Logger.getLogger(Pinger.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex)
+            this.list.setGoodAttempts(index,this.list.getGoodAttempts(index));
+        } 
+        catch (IOException ex)
         {
             Logger.getLogger(Pinger.class.getName()).log(Level.SEVERE, null, ex);
         }
+        finally
+        {
+            this.list.setTimes(index,this.times);
+            this.list.setAttempts(index,this.list.getAttempts(index)+1); //надо учитывать что подключение может отвалиться
+        }
     }
     
-    public void StartConnect() //name
+    public void startConnect() //name
     {
-       TimerTask mTask = new TimerTask() {
-
-           @Override
-           public void run()
-           {
-               for(int index=0;index<list.size();index++)
-               {
-                   connectURL(index);
-               }
-           }
-       }; 
-       this.mTimer.schedule(mTask, 100, 10000);
+        for(int i=0;i<list.getTask().size();i++) 
+            service.scheduleWithFixedDelay(new threadConnect(i), 1, 10, TimeUnit.SECONDS);
     }
- 
+    
+    public void stopConnect()
+    {
+        service.shutdown();
+    }
+    
+    public class threadConnect implements Runnable
+    {
+        private final int index;
+        public threadConnect(int index)
+        {
+            this.index = index;
+        }
+
+        @Override
+        public void run()
+        {
+            connectURL(this.index);
+        }
+    }
 }

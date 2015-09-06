@@ -11,14 +11,17 @@ package pingerbot;
  */
 public class Main
 {
-    public static void main(String[] args) //observer pattern
+   
+     
+    public static void main(String[] args)//observer pattern
     {   
        
-        ConsoleView view = new ConsoleView();
         String pathXml = "src\\pingerbot\\task.xml";
-        IData xml = new DAOXML(pathXml);
-        Journal list = xml.load(); //methods name first char to lowercase
-        ConsoleController controller = new ConsoleController(list, view); //View подписывается на сообщения от controller и от model
-        controller.start(xml);
+        IData xml = new DAOJAXB(pathXml);
+        ITask list = new Journal();
+        list = xml.load();
+        IView view = new ConsoleView(list);
+        IConsole console = new ConsoleController(list, view);
+        console.start(xml);
     }
 }

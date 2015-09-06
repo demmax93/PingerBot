@@ -1,35 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <collections>
     <task>
         <id>1</id>
         <name>Google</name>
         <url>http://google.ru:80</url>
-        <attempts>4</attempts>
-        <god_attempts>4</god_attempts>
-        <times>214</times>
+        <attempts>266</attempts>
+        <goodattempts>265</goodattempts>
+        <times>235</times>
     </task>
     <task>
         <id>2</id>
         <name>VK</name>
         <url>http://vk.com:80</url>
-        <attempts>4</attempts>
-        <god_attempts>4</god_attempts>
-        <times>141</times>
+        <attempts>274</attempts>
+        <goodattempts>273</goodattempts>
+        <times>8</times>
     </task>
     <task>
         <id>3</id>
         <name>Mail</name>
         <url>http://mail.ru:80</url>
-        <attempts>4</attempts>
-        <god_attempts>4</god_attempts>
-        <times>28</times>
+        <attempts>314</attempts>
+        <goodattempts>314</goodattempts>
+        <times>30</times>
     </task>
     <task>
         <id>4</id>
         <name>Yandex</name>
         <url>http://yandex.ru:80</url>
-        <attempts>4</attempts>
-        <god_attempts>4</god_attempts>
-        <times>168</times>
+        <attempts>276</attempts>
+        <goodattempts>276</goodattempts>
+        <times>148</times>
     </task>
 </collections>

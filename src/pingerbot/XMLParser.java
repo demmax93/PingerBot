@@ -20,7 +20,7 @@ public class XMLParser extends DefaultHandler
     private String name="";
     private String url="";
     private int attempts;
-    private int god_attempts;// _
+    private int goodattempts;
     private long times;
     private final Journal list = new Journal();
     
@@ -55,9 +55,9 @@ public class XMLParser extends DefaultHandler
         {
             attempts=new Integer(new String(ch, start, length));
         }
-        if(thisElement.equals("god_attempts"))
+        if(thisElement.equals("goodattempts"))
         {
-            god_attempts=new Integer(new String(ch, start, length));
+            goodattempts=new Integer(new String(ch, start, length));
         }
         if(thisElement.equals("times"))
         {
@@ -70,7 +70,7 @@ public class XMLParser extends DefaultHandler
     {
        thisElement = ""; 
        if(qName.equals("task"))
-           list.add(id,name,url,attempts,god_attempts,times);
+           list.add(id,name,url,attempts,goodattempts,times);
     }
     
     @Override
@@ -81,7 +81,7 @@ public class XMLParser extends DefaultHandler
     
     public void listZeroing()
     {
-        this.list.clear();
+        this.list.getTask().clear();
     }
    
     public Journal getResult()

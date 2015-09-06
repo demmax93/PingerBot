@@ -63,7 +63,7 @@ public class DAOXML implements IData
 
     //use jaxb https://dev64.wordpress.com/2012/05/15/using-annotations-with-jaxb/
     @Override
-    public void save(Journal list)
+    public void save(ITask list)
     {
         try
         {
@@ -80,26 +80,26 @@ public class DAOXML implements IData
                     collections.removeChild(node);
             }
             
-            for(int index=0;index<list.size();index++)
+            for(int index=0;index<list.getTask().size();index++)
             {
                 Element task = document.createElement("task");
                 Element id = document.createElement("id");
                 Element name = document.createElement("name");
                 Element url = document.createElement("url");
                 Element attempts = document.createElement("attempts");
-                Element god_attempts = document.createElement("god_attempts");
+                Element goodttempts = document.createElement("goodttempts");
                 Element times = document.createElement("times");
                 id.appendChild(document.createTextNode(""+list.getId(index)));
                 name.appendChild(document.createTextNode(list.getName(index)));
                 url.appendChild(document.createTextNode(list.getURL(index)));
                 attempts.appendChild(document.createTextNode(""+list.getAttempts(index)));
-                god_attempts.appendChild(document.createTextNode(""+list.getGodAttempts(index)));
+                goodttempts.appendChild(document.createTextNode(""+list.getGoodAttempts(index)));
                 times.appendChild(document.createTextNode(""+list.getTimes(index)));
                 task.appendChild(id);
                 task.appendChild(name);
                 task.appendChild(url);
                 task.appendChild(attempts);
-                task.appendChild(god_attempts);
+                task.appendChild(goodttempts);
                 task.appendChild(times);
                 collections.appendChild(task);
             }
@@ -116,5 +116,4 @@ public class DAOXML implements IData
             System.out.println(pce.getLocalizedMessage());
         }
     }
-    
 }
